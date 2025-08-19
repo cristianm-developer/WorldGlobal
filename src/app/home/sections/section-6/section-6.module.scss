@@ -49,7 +49,7 @@
           --padding-top: 28px;
           --padding-bottom: 106px;
           padding: var(--padding-top);
-          max-height: 536px;
+          max-height: min(50dvh, 536px);
           :global(.photos-wrapper){              
               gap: 2.8rem;
           }

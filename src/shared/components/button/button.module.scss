@@ -50,7 +50,7 @@
         border-radius: 50%;
 
         @media screen and (width > $md) {
-            --padding-vertical: 10px;
+            --padding-vertical: clamp(2px, .8dvh, 10px);
             
         }
         
@@ -58,7 +58,7 @@
 
 
     @media screen and (width > $md) {
-        --height: 6.1rem;
-        --border-radius: var(--border-radius-sm)
+        --height: clamp(30px, 6.5dvh, 61px);
+        --border-radius: var(--border-radius-sm);
     }
 }

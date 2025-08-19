@@ -33,10 +33,16 @@ export const Section4 = forwardRef<HTMLDivElement | null >((props, ref) => {
                 trigger: internalRef.current,
                 scroller: document.querySelector(`html`),
                 start: "top top",
-                end: "+=110%",
+                end: "+=90%",
                 pin: true,
                 scrub: true,
-            
+                pinSpacing: false,
+                snap: {
+                    snapTo: [0, 0.9, 1],
+                    duration: 4,                    
+                    
+                    ease: 'power2.out'
+                }
             }
         })
         .to(internalRef.current,

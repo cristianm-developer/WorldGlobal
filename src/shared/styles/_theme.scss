@@ -78,3 +78,4 @@
 @include hide-variations('md', $sm, $md);
 
 @include hide-min-width('md', $md);
+@include hide-min-width('sm', $md);

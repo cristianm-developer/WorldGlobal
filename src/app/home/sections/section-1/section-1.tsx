@@ -31,6 +31,7 @@ export const Section1 = forwardRef((props, ref) => {
 
          gsap.to(internalRef.current, {
             opacity: 1,
+            duration: 1,
             scrollTrigger: {
                 trigger: internalRef.current,
                 scroller: document.querySelector(`html`),
@@ -38,6 +39,7 @@ export const Section1 = forwardRef((props, ref) => {
                 end: "top 20%",                    
                 scrub: true,
                 
+                toggleActions: "play reverse play reverse"
             }
         });
 
@@ -49,7 +51,13 @@ export const Section1 = forwardRef((props, ref) => {
                 end: "bottom top",
                 scrub: true,
                 pin: true,             
-                pinSpacing: false   
+                pinSpacing: false,
+                 snap: {
+                    snapTo: [0,  1],
+                    duration: 4,
+                    inertia: true,
+                    ease: 'power2.out'
+                }
             }
         })
         .to(bgSectionRef.current, {

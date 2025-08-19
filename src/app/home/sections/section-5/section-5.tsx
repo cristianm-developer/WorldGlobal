@@ -27,10 +27,17 @@ export const Section5 = () => {
             scrollTrigger: {
                 trigger: internalRef.current,
                 scroller: document.querySelector(`html`),
-                start: "top top",
+                start: "-20px top",
                 end: "+=120%",
                 pin: true,
                 scrub: true,
+                pinSpacing: true,
+                snap: {
+                    snapTo: [0,  1],
+                    duration: 4,
+                    inertia: true,
+                    ease: 'power2.out'
+                }
                 
                 
             }

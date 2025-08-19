@@ -45,19 +45,19 @@
     }
 
     @media screen and (width > $md) {
-        padding-top: 250px;
+        padding-top: clamp(40px, 20dvh, 250px);
 
         :global(.title){
             max-width: 70%;
-            margin-bottom: 38px;
+            margin-bottom: clamp(12px, 2dvh ,38px);
             h1{
-                font-size: 9.5rem;
+                font-size: clamp(24px, 4dvw,95px);
                 line-height: .95em;
             }
         }
 
         :global(.description) {
-            margin-bottom: 35px;
+            margin-bottom: clamp(12px, 3dvh, 35px);
             p {
                 font-size: 1.7rem;
                 color: var(--color-black-alpha-70)

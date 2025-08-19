@@ -7,6 +7,7 @@ import { Icon } from '@/shared/components/icon/icon';
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import { fstat } from 'fs';
+import { off } from 'process';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -36,6 +37,7 @@ export const ItemSvg = ({ signalStart }: { signalStart: boolean }) => {
     const svgSpacerRef = useRef<HTMLDivElement | null>(null);
     const indicatorsSpacerRef = useRef<HTMLDivElement | null>(null);
     const bgBackdropRef = useRef<HTMLDivElement | null>(null);
+    const videoBgRef = useRef<HTMLDivElement| null>(null);
 
     const lines: { start: [number, number], end: [number, number], lineTap: boolean }[] = [
         { start: [880, 410], end: [480, 695], lineTap: true },
@@ -94,19 +96,27 @@ export const ItemSvg = ({ signalStart }: { signalStart: boolean }) => {
         }
 
         const frameObject = { frame: 0};
-
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: videoSpacerRef.current!,
                 scroller: videoWrapperRef.current!,
                 start: `top top`,
                 end: `bottom bottom`,
-                scrub: 0.1,
-                pinSpacing: false,                
+                scrub: true,
+                pinSpacing: false,
+                
+                snap: {
+                    delay: 0, 
+                    snapTo: [0.9,1],
+                    duration: 5,
+                    inertia: true,
+                    ease: 'power2.inOut'
+                }
             }
         })
         .fromTo(frameObject,
             { 
+                ease: 'power1.inOut',
                 frame: 0 
             }, 
             {
@@ -171,37 +181,57 @@ export const ItemSvg = ({ signalStart }: { signalStart: boolean }) => {
         const baseWidthRate = window.innerWidth / 1920;
 
         const scaleRatio = Math.max(baseHeightRate, baseWidthRate);
+        const scalePercentRev = (1 - scaleRatio) * -50;
+        const scalePercent= ( scaleRatio) * -50;
 
+        
         if (baseHeightRate > baseWidthRate) {
             const imgWidth = 1920 * scaleRatio;
             const screenOffset = window.innerWidth / 2;
             const widthRate = window.innerWidth / imgWidth;
-
+            
             const maxOffset = (imgWidth / 2) - screenOffset;
             const negWidthRate = 1 - widthRate;
             const limitOffset = 1000 * widthRate;
             const offset = Math.min(limitOffset, maxOffset * negWidthRate);
+            const scaleWidthRate = (1 - baseWidthRate) * -50;
+            const scaleHeightRate = (1 - baseHeightRate) * -50;
 
-
-            gsap.to(internalSvgRef.current!, {
+            gsap.set([videoCanvasRef.current], {
                 scale: scaleRatio,
-                duration: 2,
-                left: `calc(50% + ${offset}px)`
+                translate: `${scaleWidthRate}% ${scaleHeightRate}%`
+
+            });
+
+            gsap.set([internalSvgRef.current!], {
+                scale: scaleRatio,
+                xPercent: -50,
+                yPercent: -50,
+                y: offset
             });
         } else {
             const imgHeight = 1080 * scaleRatio;
             const screenOffset = window.innerHeight / 2;
             const heightRate = window.innerHeight / imgHeight;
-
+            
             const maxOffset = (imgHeight / 2) - screenOffset;
             const negHeightRate = 1 - heightRate;
             const limitOffset = 1000 * heightRate;
             const offset = Math.min(limitOffset, maxOffset * negHeightRate);
-
-            gsap.to(internalSvgRef.current!, {
+            const scaleWidthRate = (1 - baseWidthRate) * -50;
+            const scaleHeightRate = (1 - baseHeightRate) * -50;
+            debugger
+            gsap.set([videoCanvasRef.current], {
                 scale: scaleRatio,
-                duration: 2,
-                top: `calc(50% - ${offset}px)`
+                translate: `${scaleWidthRate}% ${scaleHeightRate}%`
+               
+            });
+
+             gsap.set([internalSvgRef.current!], {
+                scale: scaleRatio,
+                xPercent: -50,
+                yPercent: -50,
+                y: offset
             });
         }
     }
@@ -218,7 +248,9 @@ export const ItemSvg = ({ signalStart }: { signalStart: boolean }) => {
         setOffsetContainer(heightLimit);
 
         handleVideo();        
-        document.addEventListener('scroll', scrollListener)
+        document.addEventListener('scroll', scrollListener);
+        handleScaleFunction();
+        window.addEventListener('resize', handleScaleFunction);
 
 
 
@@ -238,7 +270,7 @@ export const ItemSvg = ({ signalStart }: { signalStart: boolean }) => {
 
         <div className={style["svg-item"]} ref={internalRef}>
 
-            <div className="video-bg" >
+            <div className="video-bg" ref={videoBgRef} >
                 <canvas className='video-active video-canvas' ref={videoCanvasRef}></canvas>                
                 <div className="videoWrapper" ref={videoWrapperRef}>            
                     <div className="offset" style={{height: '30px'}}> </div>

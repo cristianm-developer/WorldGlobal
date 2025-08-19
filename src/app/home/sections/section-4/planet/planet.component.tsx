@@ -216,8 +216,13 @@ export function PlanetComponent({spacerRef}: {spacerRef: RefObject<HTMLDivElemen
         trigger: spacerRef.current,
         scroller: document.querySelector(`html`),
         start: "top top",
-        end: "+=110%",
+        end: "+=90%",
         scrub: true,
+        
+        snap:{
+          snapTo: [0, 1],
+          duration: .5
+        }
       }
     })
     .fromTo(planetRef.current, {

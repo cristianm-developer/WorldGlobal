@@ -95,6 +95,10 @@
         width: 40.5dvw;
         z-index: -1;
 
+        @media screen and (width < $xxl) {
+            width: 28dvw;
+        }
+
         :global(.planetWrapper) {
 
 
@@ -115,12 +119,22 @@
                     
                     :global(.point) {
                         background: var(--color-orange);
+                        @media screen and (width < $xxl) {
+                            width: calc(var(--size)* 0.6);
+                            
+                        }
                     }
                     
                     :global(.label){
-                        max-width: 35rem;
+                        max-width: clamp(80px, 20dvw, 350px);
                         font-size: 1.5rem;
                         padding: 1.5rem var(--padding);
+
+                        @media screen  and (width < $xxl) {
+                            font-size: clamp(10px, .5dvw, 24px);
+                            padding: clamp(8px,  1.5dvh,15px) calc(var(--padding) * 0.6);
+                            
+                        }
 
                         &:global(.position-top) {
                             bottom: calc(2.8em + 100%);

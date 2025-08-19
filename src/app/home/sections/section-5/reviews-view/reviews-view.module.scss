@@ -84,8 +84,8 @@
     @media screen and (width > $md) {
         padding: 0 50px;
         
-        padding-bottom: 36px;
-        gap: 38px !important;
+        padding-bottom: clamp(8px, 3.6dvh, 36px);
+        gap: clamp(12px, 1.4dvw, 38px) !important;
         
 
         :global(.review-item){
@@ -102,9 +102,9 @@
             }
             
             :global(.card){
-                padding: 40px 50px 85px 34px;
+                padding: clamp(12px, 3dvh, 40px) clamp(12px, 3dvw ,50px) 85px clamp(12px, 1.8dvw, 34px);
                 max-height: min(23rem, 40%);
-                gap: 24px;
+                gap: clamp(4px, 1.6dvh, 24px);
 
                 :global(.button){
                     right: 17px;
@@ -119,14 +119,22 @@
                 }
 
                 p{
-                    line-height: 1.6em;
+                    font-size: clamp(8px, 1.8dvh, 16px);
+                    line-height: clamp(.8em, 2dvh, 1.5em);
+                }
+
+                :global(.button){
+                    height: clamp(24px, 5dvh, 52px);
+                    aspect-ratio: 1;
+                    width: unset;
+                    --padding-vertical: 4%;
                 }
             }
             
             &:not(:global(.open)){
 
                 :global(.card){
-                    padding-top: 3rem;
+                    padding-top: clamp(4px, 3dvh, 30px);
                 }
             }
         }

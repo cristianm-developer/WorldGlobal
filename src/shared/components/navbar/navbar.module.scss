@@ -83,12 +83,20 @@
         gap: 22px;
         padding-right: 12px;
         transition: background-color ease-in-out var(--animation-speed-fast);
+        --padding-vertical: 2%;
+
         span{
             font-size: 1.8rem;
         }
 
         :global(.button){
             height: 40px;
+
+            @media screen and (width < $xxl) {
+                --padding-vertical: clamp(2px, 1dvh, 7px) !important;
+                
+            }
+
         }
 
         &:hover{
@@ -97,15 +105,17 @@
     }
 
     @media screen and (width > $md) {
-        --vertical-dist: 40px;
-        --lateral-dist: 40px;
-        --height-top: 9.5rem; 
+        --vertical-dist: clamp(28px, 3dvh, 48px);        
+        --lateral-dist:  clamp(20px, 2dvw, 40px);
+        --height-top: clamp(30px, 10dvh, 95px); 
         padding-right: 24px;
         --padding-vertical: 16px;
         padding-left: 32px;
         border-radius: var(--border-radius-md);
         max-width: 726px;
         font-size: 1.8rem;
+
+        
 
         :global(.button){
             span{
@@ -117,6 +127,12 @@
         i:global(.icon-logo-after){
             scale: 1.6;
             translate: 1.4rem 0;
+
+            @media screen and (width < $xxl) {
+                scale: 1.2;
+                translate: 0.4rem 0;
+                
+            }
         }
 
     }

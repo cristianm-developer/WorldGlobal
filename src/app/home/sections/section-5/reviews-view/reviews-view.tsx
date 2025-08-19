@@ -71,7 +71,7 @@ export const ReviewsView = ({spacerRef}: {spacerRef: RefObject<HTMLElement | nul
                 scroller: document.querySelector(`html`),
                 start: 'top top',
                 end: '+=90%',
-                scrub: true
+                scrub: true,
             }
         });
     }

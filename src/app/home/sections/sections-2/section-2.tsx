@@ -29,8 +29,14 @@ export const Section2 = forwardRef<HTMLDivElement | null >((props, ref) => {
                 start: "top top",
                 end: "+=140%",
                 pin: true,
-                scrub: true,                                                
-                
+                scrub: true,
+                pinSpacing: false,
+                anticipatePin: 1,
+                snap: {
+                    snapTo: [0,0.5, 1],
+                    duration: 3,
+                    inertia: true,
+                }
                 
             }
         }).fromTo(internalRef.current, {
