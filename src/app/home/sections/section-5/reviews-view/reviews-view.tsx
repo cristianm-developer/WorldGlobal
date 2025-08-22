@@ -61,16 +61,20 @@ export const ReviewsView = ({spacerRef}: {spacerRef: RefObject<HTMLElement | nul
 
     function animate(){
         
+        gsap.set(reviewsRefs.current, { opacity: 0, translateY: 200 });
+
         gsap.fromTo(reviewsRefs.current, {
-            translateY: 200
+            translateY: 200,
+            opacity: 0
         }, {
             translateY: 0,
+            opacity: 1,
             stagger: 0.2,
             scrollTrigger: {
                 trigger: spacerRef.current,
-                scroller: document.querySelector(`html`),
-                start: 'top top',
-                end: '+=90%',
+                scroller: document.querySelector(`#smooth-wrapper`),
+                start: '50% top',
+                end: '+=120%',
                 scrub: true,
             }
         });

@@ -214,15 +214,17 @@ export function PlanetComponent({spacerRef}: {spacerRef: RefObject<HTMLDivElemen
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: spacerRef.current,
-        scroller: document.querySelector(`html`),
+        scroller: document.querySelector(`#smooth-wrapper`),
         start: "top top",
-        end: "+=90%",
+        end: "+=150%",
+        markers: true,
         scrub: true,
-        
-        snap:{
-          snapTo: [0, 1],
-          duration: .5
+        snap: {
+          snapTo: [0.4],
+          ease: 'power2.inOut',
+          inertia: true
         }
+
       }
     })
     .fromTo(planetRef.current, {

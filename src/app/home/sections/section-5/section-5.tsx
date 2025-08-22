@@ -26,26 +26,18 @@ export const Section5 = () => {
         gsap.timeline({
             scrollTrigger: {
                 trigger: internalRef.current,
-                scroller: document.querySelector(`html`),
-                start: "-20px top",
+                scroller: document.querySelector(`#smooth-wrapper`),
+                start: "top top",
                 end: "+=120%",
                 pin: true,
                 scrub: true,
                 pinSpacing: true,
-                snap: {
-                    snapTo: [0,  1],
-                    duration: 4,
-                    inertia: true,
-                    ease: 'power2.out'
-                }
-                
-                
             }
         })
         .to(internalRef.current, {
             opacity: 1,
         })
-        .to({}, {duration: 2})
+ 
         .fromTo(titleRef.current, { translateY: 150 }, {
             translateY: 0,            
         }, "<")

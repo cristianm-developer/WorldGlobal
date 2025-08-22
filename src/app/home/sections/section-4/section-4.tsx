@@ -31,21 +31,16 @@ export const Section4 = forwardRef<HTMLDivElement | null >((props, ref) => {
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: internalRef.current,
-                scroller: document.querySelector(`html`),
+                scroller: document.querySelector('#smooth-wrapper'),
                 start: "top top",
-                end: "+=90%",
+                end: "+=150%",
                 pin: true,
                 scrub: true,
-                pinSpacing: false,
-                snap: {
-                    snapTo: [0, 0.9, 1],
-                    duration: 4,                    
-                    
-                    ease: 'power2.out'
-                }
+                pinSpacing: false,                
+                snap: [0.5]
             }
         })
-        .to(internalRef.current,
+        .fromTo(internalRef.current, {opacity: 0},
             {opacity: 1}
         )
         .fromTo(titleRef.current, {
@@ -54,8 +49,10 @@ export const Section4 = forwardRef<HTMLDivElement | null >((props, ref) => {
             translateY: 0,
         }, "<")
         .fromTo(descriptionRef.current, {
+        
             translateY: -100,
         },{
+        
             translateY: 0, 
         }, "<")
         .fromTo(buttonRef.current, {
@@ -64,21 +61,29 @@ export const Section4 = forwardRef<HTMLDivElement | null >((props, ref) => {
             translateY: 0,
         
         }, "<")
-        .to({}, {duration: 1})
-        .to(titleRef.current, {
-            opacity: 0,
+        .fromTo(titleRef.current, 
+            { translateY: 0}, 
+            {
+           
             translateY: -200,
         
-        }, ">")
-        .to(descriptionRef.current, {
-            opacity: 0,
+        }, '55%')
+        .fromTo(descriptionRef.current, 
+            { translateY: 0},
+            {
+    
             translateY: -100,
         
         }, "<")
-        .to(buttonRef.current, {
-            opacity: 0,
+        .fromTo(buttonRef.current,{
+            translateY: 0
+        }, {
+       
             translateY: -50,        
         }, "<")
+        .fromTo(internalRef.current, {
+            opacity: 1
+        }, {opacity: 0} , "<")
         
     }
 

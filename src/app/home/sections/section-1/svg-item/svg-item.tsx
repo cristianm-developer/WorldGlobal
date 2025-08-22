@@ -8,6 +8,7 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger'
 import { fstat } from 'fs';
 import { off } from 'process';
+import { ScrollSmoother } from 'gsap/all';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,6 +39,10 @@ export const ItemSvg = ({ signalStart }: { signalStart: boolean }) => {
     const indicatorsSpacerRef = useRef<HTMLDivElement | null>(null);
     const bgBackdropRef = useRef<HTMLDivElement | null>(null);
     const videoBgRef = useRef<HTMLDivElement| null>(null);
+
+    const outsideWrapper = useRef<HTMLDivElement | null>(null);
+
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
     const lines: { start: [number, number], end: [number, number], lineTap: boolean }[] = [
         { start: [880, 410], end: [480, 695], lineTap: true },
@@ -95,33 +100,38 @@ export const ItemSvg = ({ signalStart }: { signalStart: boolean }) => {
             }
         }
 
+        
         const frameObject = { frame: 0};
+
         const tl = gsap.timeline({
             scrollTrigger: {
                 trigger: videoSpacerRef.current!,
                 scroller: videoWrapperRef.current!,
                 start: `top top`,
                 end: `bottom bottom`,
-                scrub: true,
+                scrub: 1,
                 pinSpacing: false,
-                
-                snap: {
-                    delay: 0, 
-                    snapTo: [0.9,1],
-                    duration: 5,
+                snap:{
+                    snapTo: [0,  1],
                     inertia: true,
-                    ease: 'power2.inOut'
+                    ease: 'power1.inOut'
                 }
+            },            
+            onUpdate: () => {
+                if(frameObject.frame < totalFrame - 1) {
+                    videoWrapperRef.current?.classList.remove('hero-ready');
+                } else
+                    videoWrapperRef.current?.classList.add('hero-ready');
             }
         })
         .fromTo(frameObject,
-            { 
-                ease: 'power1.inOut',
+            {                 
                 frame: 0 
             }, 
             {
                 frame: totalFrame - 1,
                 onUpdate: () => {
+              
                     if(!canvas) return;
                     const frameIndex = Math.floor(frameObject.frame);
                     ctx?.clearRect(0, 0, canvas?.width, canvas?.height);
@@ -129,17 +139,10 @@ export const ItemSvg = ({ signalStart }: { signalStart: boolean }) => {
                 },
             }, 
         )
-        
-        const tl2 = gsap.timeline({
-            scrollTrigger: {
-                trigger: videoSpacerRef.current!,
-                scroller: videoWrapperRef.current!,
-                start: '95% bottom',
-                end: 'bottom bottom',
-                scrub: 0.1,
-                pinSpacing: false,                
-            }
-        }).fromTo(bgBackdropRef.current!,
+        const isMobile = window.innerWidth < 768;
+        if(isMobile) return;
+
+        tl.fromTo(bgBackdropRef.current!,
             {
                 opacity: 0
             }, {
@@ -174,6 +177,52 @@ export const ItemSvg = ({ signalStart }: { signalStart: boolean }) => {
                 stagger: 0.2
             },">"
         )
+
+        
+        // const tl2 = gsap.timeline({
+        //     scrollTrigger: {
+        //         trigger: videoSpacerRef.current!,
+        //         scroller: videoWrapperRef.current!,
+        //         start: '95% bottom',
+        //         end: 'bottom bottom',
+        //         scrub: 0.1,
+        //         pinSpacing: false,                
+        //     }
+        // }).fromTo(bgBackdropRef.current!,
+        //     {
+        //         opacity: 0
+        //     }, {
+        //         opacity: 1,
+        //     }, 
+        // ).fromTo(groupLines.current!, 
+        //     {
+        //         maskSize: '0% 0%'
+        //     },
+        //     {
+        //         maskSize: '100% 100%'
+        //     },
+        //     "<"
+        // ).fromTo(Array.from(document.querySelectorAll('.bg-wrapper svg .feature-item .point-indicator')),
+        //     {
+        //         opacity: 0,
+        //         y: 300
+        //     },
+        //     {
+        //         opacity: 1,
+        //         y: 0,
+        //         stagger: 0.2
+        //     },">"
+        // ).fromTo(Array.from(document.querySelectorAll('.bg-wrapper svg .feature-item .feature-content')),
+        //     {
+        //         opacity: 0,
+        //         y: 300
+        //     },
+        //     {
+        //         opacity: 1,
+        //         y: 0,
+        //         stagger: 0.2
+        //     },">"
+        // )
     }
 
     function handleScaleFunction() {
@@ -271,15 +320,14 @@ export const ItemSvg = ({ signalStart }: { signalStart: boolean }) => {
         <div className={style["svg-item"]} ref={internalRef}>
 
             <div className="video-bg" ref={videoBgRef} >
-                <canvas className='video-active video-canvas' ref={videoCanvasRef}></canvas>                
-                <div className="videoWrapper" ref={videoWrapperRef}>            
-                    <div className="offset" style={{height: '30px'}}> </div>
-                    <div className="spacer" ref={videoSpacerRef} style={{height: `calc(${totalFrame * 50}px + 100dvh)`}}></div>
-
-                </div>
+                <canvas className='video-active video-canvas' ref={videoCanvasRef}></canvas>                  
+                    <div className="videoWrapper" ref={videoWrapperRef}>                                    
+                        <div className="spacer" ref={videoSpacerRef} style={{height: `calc(${totalFrame * 15}px + 100dvh)`}}></div>
+                    </div>                
+                
             </div>
             <div className="bg-backdrop" ref={bgBackdropRef}></div>
-            <svg ref={internalSvgRef} viewBox='0 0 1920 1080' preserveAspectRatio='xMidYMid slice' xmlns='http://www.w3.org/2000/svg'>
+            <svg className='hide-sm hide-xs' ref={internalSvgRef} viewBox='0 0 1920 1080' preserveAspectRatio='xMidYMid slice' xmlns='http://www.w3.org/2000/svg'>
 
                 
                 <g ref={groupLines} >

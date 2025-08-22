@@ -22,7 +22,11 @@ export default function RootLayout({
       <body>
         <Loader/>
         <Navbar/>
-        {children}
+        <div id="smooth-wrapper">
+          <div id="smooth-content">
+            {children}
+          </div>
+        </div>
         <script
           dangerouslySetInnerHTML={{
             __html: `window.addEventListener('load', () => setTimeout(() => {

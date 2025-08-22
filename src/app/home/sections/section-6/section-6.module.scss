@@ -12,11 +12,13 @@
 
     :global(.photos-wrapper){
         width: 100%;
-        flex: 1;
+        flex: 1 100%;
         display: flex;
         gap: 12px;
+        height: 100%;
         border-radius: var(--border-radius-md);
         overflow-x: auto;
+        overflow-y: hidden;
 
         img{
             width: 100%;
@@ -57,6 +59,10 @@
 
           img{
             border-radius: inherit;
+            height: 100%;
+            width: unset;
+            overflow: hidden;
+            object-fit: cover;
           }
     }
 }

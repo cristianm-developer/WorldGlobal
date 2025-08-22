@@ -22,26 +22,27 @@ export const Section2 = forwardRef<HTMLDivElement | null >((props, ref) => {
     
     function animate(){
 
+        gsap.set(internalRef.current, { opacity: 1 });  
+
         const tlStart = gsap.timeline({
             scrollTrigger: {
                 trigger: internalRef.current,
-                scroller: document.querySelector(`html`),
-                start: "top top",
-                end: "+=140%",
-                pin: true,
+                scroller: document.querySelector(`#smooth-wrapper`),             
                 scrub: true,
-                pinSpacing: false,
-                anticipatePin: 1,
+                start: 'top top',                
+                end: '200%',
+                pinSpacing: true,
+                pin: true,
                 snap: {
-                    snapTo: [0,0.5, 1],
-                    duration: 3,
+                    snapTo: [0.6],
+                    ease: 'power2.inOut',
                     inertia: true,
+                    duration: 0.1
                 }
-                
             }
         }).fromTo(internalRef.current, {
             opacity: 0,
-        }, {opacity: 1})
+        }, {opacity: 1}, 0)
         .fromTo(titleRef.current, 
             {
                 translateY: -100
@@ -50,7 +51,6 @@ export const Section2 = forwardRef<HTMLDivElement | null >((props, ref) => {
                 translateY: 0,
             },
             "<"
-
         ).fromTo(featuresRef.current, 
             {
                 translateY: 100
@@ -59,11 +59,16 @@ export const Section2 = forwardRef<HTMLDivElement | null >((props, ref) => {
                 translateY: 0,
             }, "<"
         )
-        .to({}, {duration: 1})
-        .to(internalRef.current, {
+
+        tlStart.fromTo(internalRef.current, {
+            opacity: 1,
+        }, {
             opacity: 0,
-        }, ">")
-        .to([titleRef.current!, featuresRef.current!], {
+        }, "55%")
+        .fromTo([titleRef.current!, featuresRef.current!], {
+            translateY: 0,
+        },
+            {
             translateY: -500,
         }, "<")
 

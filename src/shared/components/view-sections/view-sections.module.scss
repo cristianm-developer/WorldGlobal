@@ -11,6 +11,8 @@
     opacity: 0;
     top: 0;
 
+    will-change: transform;
+
     &:global(.padding){
         padding: var(--padding);
     }
