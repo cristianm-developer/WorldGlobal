@@ -216,8 +216,7 @@ export function PlanetComponent({spacerRef}: {spacerRef: RefObject<HTMLDivElemen
         trigger: spacerRef.current,
         scroller: document.querySelector(`#smooth-wrapper`),
         start: "top top",
-        end: "+=150%",
-        markers: true,
+        end: "+=150%",        
         scrub: true,
         snap: {
           snapTo: [0.4],
